@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 /**
  *
@@ -36,7 +37,8 @@ public class Nota implements Serializable{
     @Length(max = 50, message = "O aluno não pode ter mais que {max} caracteres")
     @Column(name = "aluno", nullable = false, length = 50)    
     private String aluno;
-     @NotNull(message = "O nota deve ser informado")
+    
+    @Range(min=0,max=10,message="A nota so pode variar de 0 a 10")
     @Column(name = "nota", nullable = false)       
     private Double nota;
     @ManyToOne

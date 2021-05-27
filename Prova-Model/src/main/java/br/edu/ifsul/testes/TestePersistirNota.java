@@ -24,7 +24,7 @@ public class TestePersistirNota {
         EntityManager em = emf.createEntityManager();
         Nota nota = new Nota();
         nota.setAluno("henrique");
-        nota.setNota(10.00);
+        nota.setNota(9.00);
         nota.setProva(em.find(Prova.class, 1));
 
        

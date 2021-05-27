@@ -27,6 +27,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 /**
  *
@@ -44,9 +45,11 @@ public class Prova implements Serializable{
     @Length(max = 50, message = "O descricao não pode ter mais que {max} caracteres")
     @Column(name = "descricao", nullable = false, length = 50)    
     private String descricao;
-     
-    @Column(name = "mediaGeral", nullable = false)       
+    @NotNull(message = "Volume é obrigatório")
+    @Range(min=0,max=10,message="A nota ´so pode variar de 0 a 10")
+    @Column(name = "mediaGeral")       
     private Double mediaGeral;
+   
     @NotBlank(message = "O conteudo não pode ser em branco")
     @Length(max = 50, message = "O conteudo não pode ter mais que {max} caracteres")
     @Column(name = "conteudo", nullable = false, length = 50)    
@@ -69,10 +72,12 @@ public class Prova implements Serializable{
     public void adicionarNota(Nota obj){
         obj.setProva(this);
         this.notas.add(obj);
+
     }
     
     public void removerNota(int index){
         this.notas.remove(index);
+ 
     }
     
     public Integer getId() {
