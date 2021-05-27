@@ -28,14 +28,11 @@ public class ControleProva implements Serializable{
     private Prova objeto;
     private Nota nota;
     private Boolean novoNota;
+    private int abaAtiva;
 
     public ControleProva() {
     }
 
- 
-    
-    
-   
     public String listar(){
         return "/privado/Prova/listar?faces-redirect=true";
     }
@@ -44,25 +41,28 @@ public class ControleProva implements Serializable{
     public void novo(){
         
         objeto = new Prova();
+        abaAtiva = 0;
     }
     
     public void novoNota(){
         nota = new Nota();
-       
+        novoNota= true;
     }
     
     public void alterar(Object id){
         try {
             objeto = dao.getObjectByID(id);
-            
+            abaAtiva = 0;
         } catch (Exception e){
             Util.mensagemInformacao("Erro ao recuperar objeto: " + Util.getMensagemErro(e));
         }
     }
-    public void alterarNota(int valor){
-        nota = objeto.getNotas().get(valor);
+     public void alterarNota(int index){
+      nota = objeto.getNotas().get(index);
+      novoNota= false;
     }
     
+
     public void excluir(Object id){
         try {
             objeto = dao.getObjectByID(id);
@@ -73,7 +73,7 @@ public class ControleProva implements Serializable{
         }
     }
     public void excluirNota(int valor){
-        objeto.removerNota(valor);
+        objeto.getNotas().remove(valor);
         Util.mensagemInformacao("Nota removida com sucesso!");
     }
     
@@ -99,7 +99,49 @@ public class ControleProva implements Serializable{
        Util.mensagemInformacao("Nota adicionada ou alterada com sucesso!");
     }
 
+    public ProvaDao<Prova> getDao() {
+        return dao;
+    }
+
+    public void setDao(ProvaDao<Prova> dao) {
+        this.dao = dao;
+    }
+
+    public Prova getObjeto() {
+        return objeto;
+    }
+
+    public void setObjeto(Prova objeto) {
+        this.objeto = objeto;
+    }
+
+    public Nota getNota() {
+        return nota;
+    }
+
+    public void setNota(Nota nota) {
+        this.nota = nota;
+    }
+
+    public Boolean getNovoNota() {
+        return novoNota;
+    }
+
+    public void setNovoNota(Boolean novoNota) {
+        this.novoNota = novoNota;
+    }
+
+    public int getAbaAtiva() {
+        return abaAtiva;
+    }
+
+    public void setAbaAtiva(int abaAtiva) {
+        this.abaAtiva = abaAtiva;
+    }
+
+   
     
+   
     
     
 }

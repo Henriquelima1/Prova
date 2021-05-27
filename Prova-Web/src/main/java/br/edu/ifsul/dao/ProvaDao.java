@@ -10,8 +10,10 @@ package br.edu.ifsul.dao;
 
 
 
+import br.edu.ifsul.conversores.ConverterOrdem;
 import br.edu.ifsul.modelo.Prova;
 import java.io.Serializable;
+import java.util.List;
 import javax.ejb.Stateful;
 
 /**
@@ -22,9 +24,31 @@ import javax.ejb.Stateful;
 public class ProvaDao<TIPO> extends DAOGenerico<Prova> implements Serializable  {
 
     public ProvaDao() {
-        super();
+         super();
         classePersistente = Prova.class;
+        // definir as ordens possíveis
+        listaOrdem.add(new Ordem("id", "ID", "="));
+        listaOrdem.add(new Ordem("descricao", "Descricao", "like"));
+        listaOrdem.add(new Ordem("conteudo", "Conteudo", "like"));
+        listaOrdem.add(new Ordem("dataProva", "Data Prova", "="));
+        listaOrdem.add(new Ordem("professor", "Professor", "like"));
+        // difinir a ordem inicial
+        ordemAtual = listaOrdem.get(1);
+        // inicializar o conversor das ordens
+        converterOrdem = new ConverterOrdem();
+        converterOrdem.setListaOrdem(listaOrdem); 
     }
-
+    
+    public Prova getObjectByID(Object id) throws Exception {
+        Prova obj = em.find(Prova.class, id);
+        // uso para evitar o erro de lazy inicialization exception
+        obj.getNotas().size();
+        return obj;
+    }   
+    
+    public List<Prova> getListaObjetosCompleta(){
+        String jpql = "select distinct t from Prova t join fetch t.notas order by t.id";
+        return em.createQuery(jpql).getResultList();
+    }    
     
 }

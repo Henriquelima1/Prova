@@ -29,15 +29,15 @@
                                         mask="true" pattern="dd/MM/yyyy" navigator="true" size="10">
                                 <f:converter converterId="converterCalendar"/>
                             </p:calendar>
-<!--                            <p:outputLabel value="MediaGeral" for="txtMediaGeral"/>
-                            <p:inputNumber id="txtMediaGeral" value="#{controleProva.objeto.mediaGeral}"
-                                         size="50" maxlength="50"
-                                         required="true" decimalPlaces="2" decimalSeparator="," thousandSeparator=""/>-->
+
                             <p:outputLabel value="Professor" for="txtProfessor"/>
                             <p:inputText id="txtProfessor" value="#{controleProva.objeto.professor}"
                                          size="50" maxlength="50"
                                          placeholder="Obrigatório"/>
-                                                    
+                                                      <p:outputLabel value="MediaGeral" for="txtMediaGeral"/>
+                            <p:inputNumber id="txtMediaGeral" value="#{controleProva.objeto.mediaGeral}"
+                                         size="50" maxlength="50"
+                                         required="true" decimalPlaces="2" decimalSeparator="," thousandSeparator=""/>                      
                         </p:panelGrid>
                     </div>                    
                 </p:tab>  
@@ -106,7 +106,7 @@
                     <div align="center">
                         <p:commandButton value="Salvar" icon="pi pi-save"
                                          actionListener="#{controleProva.salvarNota()}"
-                                         update="tab:lista Notas growl @form"
+                                         update="tab:listaNotas growl @form"
                                          process="@form"
                     oncomplete="if(!args.validationFailed){PF('dlg Nota').hide();}"/>                                         
                     </div>
@@ -114,7 +114,7 @@
                 <p:outputLabel value="ID"/>
                 <p:inputText value="#{controleProva.nota.id}" readonly="true"/>
                 <p:outputLabel value="Aluno" for="txtAluno"/>
-                <p:inputText id="txtAluno" value="#{controleProva.nota.nome}"
+                <p:inputText id="txtAluno" value="#{controleProva.nota.aluno}"
                              placeholder="Obrigatório"
                              size="50" maxlength="50"/>
                 
