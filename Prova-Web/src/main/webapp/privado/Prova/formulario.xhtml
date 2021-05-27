@@ -37,7 +37,8 @@
                                                       <p:outputLabel value="MediaGeral" for="txtMediaGeral"/>
                             <p:inputNumber id="txtMediaGeral" value="#{controleProva.objeto.mediaGeral}"
                                          size="50" maxlength="50"
-                                         required="true" decimalPlaces="2" decimalSeparator="," thousandSeparator=""/>                      
+                                         required="true" minValue="0"
+                                maxValue="10" decimalPlaces="2" decimalSeparator="," thousandSeparator=""/>                      
                         </p:panelGrid>
                     </div>                    
                 </p:tab>  
@@ -120,7 +121,8 @@
                 
                 <p:outputLabel value="Nota" for="txtNotaAluno"/>
                 <p:inputNumber id="txtNotaAluno" value="#{controleProva.nota.nota}"
-                               thousandSeparator="" decimalSeparator="." decimalPlaces="2"
+                               thousandSeparator="" minValue="0"
+                                maxValue="10" decimalSeparator="." decimalPlaces="2"
                                size="10"/>
                     
                 
