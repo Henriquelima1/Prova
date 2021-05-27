@@ -1,0 +1,4 @@
+br\edu\ifsul\modelo\Nota.class
+br\edu\ifsul\testes\TestePersistirProva.class
+br\edu\ifsul\testes\TestePersistirNota.class
+br\edu\ifsul\modelo\Prova.class
