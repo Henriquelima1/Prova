@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <p:dialog header="Edição" widgetVar="dlg" resizable="false"
+              modal="true" width="50%" height="100%">
+        <h:form id="formEdicao" prependId="false">
+            <p:growl id="growl"/>
+            <p:tabView id="tab" activeIndex="#{controleProva.abaAtiva}">
+                <p:tab title="Dados Principais">
+                    <div align="center">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="ID"/>
+                            <p:inputText value="#{controleProva.objeto.id}"
+                                         size="5" readonly="true"/>
+                            <p:outputLabel value="Descricao" for="txtDescricao"/>
+                            <p:inputText id="txtDescricao" value="#{controleProva.objeto.descricao}"
+                                         size="50" maxlength="50"
+                                         placeholder="Obrigatório"/>
+                            <p:outputLabel value="Conteudo" for="txtConteudo"/>
+                            <p:inputText id="txtConteudo" value="#{controleProva.objeto.conteudo}"
+                                         size="50" maxlength="50"
+                                         placeholder="Obrigatório"/>
+                            <p:outputLabel value="Data de Prova" for="txtDataProva"/>
+                            <p:calendar id="txtDataProva" value="#{controleProva.objeto.dataProva}"
+                                        mask="true" pattern="dd/MM/yyyy" navigator="true" size="10">
+                                <f:converter converterId="converterCalendar"/>
+                            </p:calendar>
+<!--                            <p:outputLabel value="MediaGeral" for="txtMediaGeral"/>
+                            <p:inputNumber id="txtMediaGeral" value="#{controleProva.objeto.mediaGeral}"
+                                         size="50" maxlength="50"
+                                         required="true" decimalPlaces="2" decimalSeparator="," thousandSeparator=""/>-->
+                            <p:outputLabel value="Professor" for="txtProfessor"/>
+                            <p:inputText id="txtProfessor" value="#{controleProva.objeto.professor}"
+                                         size="50" maxlength="50"
+                                         placeholder="Obrigatório"/>
+                                                    
+                        </p:panelGrid>
+                    </div>                    
+                </p:tab>  
+                <p:tab title="Notas">
+                    <p:dataTable value="#{controleProva.objeto.notas}"
+                                 var="nota" rowIndexVar="idxNota"
+                                 id="listaNotas">
+                        <f:facet name="header">
+                            <p:commandButton value="Nova Nota"
+                                             actionListener="#{controleProva.novoNota()}"
+                                             update=":formNota"
+                                             icon="pi pi-plus"
+                                             process="@this"
+                                             oncomplete="PF('dlgNota').show();"/>
+                        </f:facet>
+                        <p:column headerText="ID">
+                            <p:outputLabel value="#{nota.id}"/>
+                        </p:column>
+                        <p:column headerText="Aluno">
+                            <p:outputLabel value="#{nota.aluno}"/>
+                        </p:column>    
+                        <p:column headerText="Nota">
+                            <p:outputLabel value="#{nota.nota}"/>
+
+                        </p:column>  
+                        <p:column headerText="Ações">
+                            <div align="center">
+                                <p:commandButton 
+                                    actionListener="#{controleProva.alterarNota(idxNota)}"
+                                                 icon="pi pi-pencil"
+                                                 title="Editar"
+                                                 update=":formNota"
+                                                 process="@this"
+                                                 oncomplete="PF('dlgNotas').show();"/>
+                                <p:commandButton 
+                                    actionListener="#{controleProva.excluirNota(idxNota)}"
+                                                 icon="pi pi-trash"
+                                                 update="tab:listaNotas growl"
+                                                 process="@this"
+                                                 onclick="if (!confirm('Confirma a exclusão'))
+                                                         return false"/>
+                            </div>
+                        </p:column>                        
+                    </p:dataTable>
+                </p:tab>                      
+            </p:tabView>
+
+            <p:panel>
+                <div align="center">
+                    <p:commandButton value="Salvar"
+                                     icon="pi pi-save"
+                                     actionListener="#{controleProva.salvar()}"
+                                     update="formEdicao formListagem"
+                                     oncomplete="if (!args.validationFailed){PF('dlg').hide();}"/>
+                </div>
+            </p:panel>
+        </h:form>
+    </p:dialog>
+    
+    <p:dialog header="Edição de Nota" widgetVar="dlgNota" resizable="false"
+        modal="true">
+        <h:form id="formNota">
+            <p:growl/>
+            <p:panelGrid columns="2">
+                <f:facet name="footer">
+                    <div align="center">
+                        <p:commandButton value="Salvar" icon="pi pi-save"
+                                         actionListener="#{controleProva.salvarNota()}"
+                                         update="tab:lista Notas growl @form"
+                                         process="@form"
+                    oncomplete="if(!args.validationFailed){PF('dlg Nota').hide();}"/>                                         
+                    </div>
+                </f:facet>
+                <p:outputLabel value="ID"/>
+                <p:inputText value="#{controleProva.nota.id}" readonly="true"/>
+                <p:outputLabel value="Aluno" for="txtAluno"/>
+                <p:inputText id="txtAluno" value="#{controleProva.nota.nome}"
+                             placeholder="Obrigatório"
+                             size="50" maxlength="50"/>
+                
+                <p:outputLabel value="Nota" for="txtNotaAluno"/>
+                <p:inputNumber id="txtNotaAluno" value="#{controleProva.nota.nota}"
+                               thousandSeparator="" decimalSeparator="." decimalPlaces="2"
+                               size="10"/>
+                    
+                
+            </p:panelGrid>
+        </h:form>
+        <ui:include src="/templates/ajaxstatus.xhtml"/>
+    </p:dialog>
+</html>
